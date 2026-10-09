@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wander & Beyond - Travel Blog</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box} body{font-family:'Poppins',sans-serif;background:#fefefe;color:#2b2b2b}
+nav{display:flex;justify-content:space-between;padding:20px 8%;background:white;position:sticky;top:0;z-index:10;border-bottom:1px solid #eee}
+nav h1{font-family:'Playfair Display',serif;color:#3a86ff;letter-spacing:1px}
+.hero{text-align:center;padding:80px 8% 40px;background:linear-gradient(to bottom,#eef6ff,white)}
+.hero h2{font-family:'Playfair Display',serif;font-size:60px}.hero h2 span{color:#3a86ff}
+.grid{display:grid;grid-template-columns:2fr 1fr;gap:30px;padding:40px 8%}
+.post{background:white;border-radius:20px;overflow:hidden;box-shadow:0 5px 20px rgba(0,0,0,0.05);margin-bottom:25px;transition:0.3s}
+.post:hover{transform:translateY(-3px)}.post img{width:100%;height:250px;object-fit:cover;background:#dbeafe}
+.post-content{padding:20px}.tag{background:#e0eaff;color:#3a86ff;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:bold}
+.sidebar.card{background:white;padding:20px;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,0.05);margin-bottom:20px}
+.btn{background:#111;color:white;padding:10px 20px;border-radius:25px;border:none;cursor:pointer;margin-top:10px}
+.like{cursor:pointer;color:#ff5a5f}.like.active{font-weight:bold}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.hero h2{font-size:38px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <h1>WANDER & BEYOND ✈️</h1>
+  <div>🌍 Destinations | 📝 Stories | 👁️ <span id="liveViews">1,248</span> Live Readers</div>
+</nav>
+
+<div class="hero">
+  <p style="letter-spacing:4px;color:#3a86ff">TRAVEL BLOG • 2026</p>
+  <h2>Stories That Make You <br><span>Wander Beyond</span> Maps</h2>
+  <p style="color:#777;margin-top:15px;max-width:600px;margin-left:auto;margin-right:auto">Same aesthetic as Bloom & Beyond, but for travel lovers. Handpicked hidden places, budget trips & photo diaries.</p>
+  <div style="margin-top:20px"><canvas id="viewsChart" height="80"></canvas></div>
+</div>
+
+<div class="grid">
+  <!-- Left: Blog Posts -->
+  <div>
+    <div class="post">
+      <div style="height:250px;background:linear-gradient(135deg,#a8edea,#fed6e3);display:flex;align-items:center;justify-content:center;font-size:80px">🏔️</div>
+      <div class="post-content">
+        <span class="tag">HIMALAYAS</span> <span style="color:#999;font-size:13px">• 5 min read • <span class="viewCount">324</span> views</span>
+        <h3 style="font-family:'Playfair Display';font-size:24px;margin:10px 0">I Spent 7 Days in Spiti Without Network - Here's What I Learned</h3>
+        <p style="color:#666">No phone, no maps, only mountains. The most peaceful week of 2026...</p>
+        <button class="btn" onclick="like(this)">❤️ <span>128</span> Likes</button> <button class="btn" style="background:white;color:#111;border:1px solid #ddd">Read Story →</button>
+      </div>
+    </div>
+
+    <div class="post">
+      <div style="height:250px;background:linear-gradient(135deg,#ffecd2,#fcb69f);display:flex;align-items:center;justify-content:center;font-size:80px">🏜️</div>
+      <div class="post-content">
+        <span class="tag">RAJASTHAN</span> <span style="color:#999;font-size:13px">• 4 min read • <span class="viewCount">512</span> views</span>
+        <h3 style="font-family:'Playfair Display';font-size:24px;margin:10px 0">Jaisalmer's Golden Hour That No One Tells You About</h3>
+        <p style="color:#666">Forget the fort, this desert cafe has the best sunset view...</p>
+        <button class="btn" onclick="like(this)">❤️ <span>89</span> Likes</button> <button class="btn" style="background:white;color:#111;border:1px solid #ddd">Read Story →</button>
+      </div>
+    </div>
+
+    <div class="post">
+      <div style="height:250px;background:linear-gradient(135deg,#d4fc79,#96e6a1);display:flex;align-items:center;justify-content:center;font-size:80px">🌊</div>
+      <div class="post-content">
+        <span class="tag">KERALA</span> <span style="color:#999;font-size:13px">• 6 min read • <span class="viewCount">410</span> views</span>
+        <h3 style="font-family:'Playfair Display';font-size:24px;margin:10px 0">A Secret Backwater in Alleppey Where Tourists Don't Go</h3>
+        <p style="color:#666">Took a local boat at 5am, found this paradise...</p>
+        <button class="btn" onclick="like(this)">❤️ <span>201</span> Likes</button> <button class="btn" style="background:white;color:#111;border:1px solid #ddd">Read Story →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: Sidebar -->
+  <div class="sidebar">
+    <div class="card">
+      <h3>About Me</h3>
+      <div style="width:60px;height:60px;background:#3a86ff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;margin:10px 0">🧑‍💻</div>
+      <p style="color:#666;font-size:14px">Hi, I'm Abhiram! B.Tech student who codes by day and travels by weekend. This blog is my travel diary.</p>
+      <p style="margin-top:10px">📍 Ahmedabad, Gujarat</p>
+    </div>
+
+    <div class="card">
+      <h3>Live Blog Stats <span style="color:green;font-size:11px">● LIVE</span></h3>
+      <canvas id="statsChart"></canvas>
+      <p style="font-size:13px;color:#777;margin-top:10px">Views update every 2 sec using setInterval()</p>
+    </div>
+
+    <div class="card">
+      <h3>Popular Tags</h3>
+      <p><span class="tag">Mountains</span> <span class="tag">Budget Trips</span> <span class="tag">Solo Travel</span> <span class="tag">Food</span></p>
+    </div>
+
+    <div class="card">
+      <h3>Newsletter</h3>
+      <p style="font-size:14px;color:#666">Get new stories in your inbox!</p>
+      <input type="email" placeholder="Your email" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-top:10px">
+      <button class="btn" style="width:100%;background:#3a86ff" onclick="alert('Subscribed! (Dynamic)')">Subscribe</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function like(btn){
+  let span = btn.querySelector('span');
+  span.innerText = parseInt(span.innerText) + 1;
+  btn.style.background = "#ff5a5f";
+}
+
+let chart = new Chart(document.getElementById('statsChart'),{
+  type:'doughnut',
+  data:{labels:['Himalayas','Rajasthan','Kerala'], datasets:[{data:[324,512,410], backgroundColor:['#a8edea','#fcb69f','#96e6a1']}]},
+});
+
+let viewsChart = new Chart(document.getElementById('viewsChart'),{
+  type:'line',
+  data:{labels:['Mon','Tue','Wed','Thu','Fri','Today'], datasets:[{label:'Daily Readers', data:[800,950,1100,1050,1200,1248], borderColor:'#3a86ff', tension:0.4, fill:true, backgroundColor:'rgba(58,134,255,0.1)'}]},
+  options:{plugins:{legend:{display:false}}, scales:{y:{display:false}, x:{grid:{display:false}}}}
+});
+
+setInterval(()=>{
+  let v = 1248 + Math.floor(Math.random()*10);
+  document.getElementById('liveViews').innerText = v.toLocaleString();
+  viewsChart.data.datasets[0].data[5] = v;
+  viewsChart.update();
+
+  document.querySelectorAll('.viewCount').forEach(el=>{
+    el.innerText = parseInt(el.innerText) + Math.floor(Math.random()*2);
+  });
+},2000);
+</script>
+
+</body>
+</html>
